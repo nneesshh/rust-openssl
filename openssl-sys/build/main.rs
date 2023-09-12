@@ -116,14 +116,15 @@ fn main() {
     }
 
     // https://github.com/openssl/openssl/pull/15086
-    if version == Version::Openssl3xx
-        && kind == "static"
-        && (env::var("CARGO_CFG_TARGET_OS").unwrap() == "linux"
-            || env::var("CARGO_CFG_TARGET_OS").unwrap() == "android")
-        && env::var("CARGO_CFG_TARGET_POINTER_WIDTH").unwrap() == "32"
-    {
-        println!("cargo:rustc-link-lib=dylib=atomic");
-    }
+    // 构建openssl添加no-threads 就不需要这个了
+    // if version == Version::Openssl3xx
+    //     && kind == "static"
+    //     && (env::var("CARGO_CFG_TARGET_OS").unwrap() == "linux"
+    //         || env::var("CARGO_CFG_TARGET_OS").unwrap() == "android")
+    //     && env::var("CARGO_CFG_TARGET_POINTER_WIDTH").unwrap() == "32"
+    // {
+    //     println!("cargo:rustc-link-lib=dylib=atomic");
+    // }
 
     if kind == "static" && target.contains("windows") {
         println!("cargo:rustc-link-lib=dylib=gdi32");
