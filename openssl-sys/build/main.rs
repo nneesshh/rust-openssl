@@ -68,6 +68,58 @@ fn check_ssl_kind() {
 fn main() {
     check_ssl_kind();
 
+    ////////////////////////////////////////////////////////////////
+    // Setup openssl env default
+    let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR was not set");
+    let manifest_path = std::path::PathBuf::from(manifest_dir);
+
+    match std::env::var("OPENSSL_LIB_DIR") {
+        Ok(_dir) => {},
+        Err(_) => {
+            //
+            #[cfg(target_os = "windows")]
+            {
+                let value = manifest_path.join("../../cpplibs/openssl/lib/win");
+                std::env::set_var("OPENSSL_LIB_DIR", value.to_str().unwrap());
+            }
+
+            //
+            #[cfg(target_os = "linux")]
+            {
+                let value = manifest_path.join("../../cpplibs/openssl/lib/centos");
+                std::env::set_var("OPENSSL_LIB_DIR", value.to_str().unwrap());
+            }
+        }
+    }
+
+    match std::env::var("OPENSSL_INCLUDE_DIR") {
+        Ok(_dir) => {},
+        Err(_) => {    
+            //
+            let value = manifest_path.join("../../cpplibs/openssl/include");
+            std::env::set_var("OPENSSL_INCLUDE_DIR", value);
+        }
+    }
+
+    match std::env::var("OPENSSL_STATIC") {
+        Ok(_dir) => {},
+        Err(_) => {
+            //
+            std::env::set_var("OPENSSL_STATIC", "1");
+        }
+    }
+
+    match std::env::var("OPENSSL_LIBS") {
+        Ok(_dir) => {},
+        Err(_) => {
+            //
+            std::env::set_var("OPENSSL_LIBS", "libssl:libcrypto");
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////
+
+
     let target = env::var("TARGET").unwrap();
 
     let (lib_dirs, include_dir) = find_openssl(&target);

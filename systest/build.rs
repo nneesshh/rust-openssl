@@ -23,6 +23,7 @@ fn main() {
         // thing?
         if target.contains("msvc") {
             cfg.flag("/wd4090");
+            cfg.flag("/wd4191");
         }
 
         // https://github.com/sfackler/rust-openssl/issues/889
