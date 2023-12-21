@@ -12,5 +12,4 @@ openssl-sys = { path = "../openssl-sys" }
 ctest2 = "0.4"
 
 [features]
-vendored = ['openssl-sys/vendored']
 bindgen = ['openssl-sys/bindgen']

@@ -17,9 +17,7 @@ v102 = []
 v110 = []
 v111 = []
 
-vendored = ['ffi/vendored']
 bindgen = ['ffi/bindgen']
-unstable_boringssl = ["ffi/unstable_boringssl"]
 default = []
 
 [dependencies]
