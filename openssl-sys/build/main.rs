@@ -113,7 +113,10 @@ fn main() {
         Ok(_dir) => {},
         Err(_) => {
             //
+            #[cfg(target_os = "windows")]
             std::env::set_var("OPENSSL_LIBS", "libssl:libcrypto");
+            #[cfg(target_os = "linux")]
+            std::env::set_var("OPENSSL_LIBS", "ssl:crypto");
         }
     }
 
